@@ -305,6 +305,12 @@ b, strong {
   vertical-align: top;
 }
 
+/* Padding & Margin */
+.px-20{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 /* Font size */
 .fs-0 {
   font-size: 0;
@@ -8188,6 +8194,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
   font-weight: 900 !important;
 }
 
+
 /* Min height */
 .min-h-100px {
   min-height: 100px !important;
@@ -11815,7 +11822,7 @@ blockquote footer {
   transition-delay: 0.225s;
 }
 .btn.btn-hover-animation-switch.btn-icon-left .btn-text {
-  margin-right: -15px;
+  /* margin-right: -15px; */
   margin-left: 0px;
   position: relative;
   z-index: 3;

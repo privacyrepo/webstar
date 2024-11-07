@@ -1,5 +1,5 @@
 /*!
-    Crafto - Parallax Liquid Image
+    webstar - Parallax Liquid Image
     Created by ThemeZaa
 !*/
 ! function(n) {

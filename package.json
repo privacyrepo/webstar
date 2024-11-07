@@ -1,7 +1,7 @@
 {
-  "name": "crafto",
+  "name": "webstar",
   "version": "2.0.0",
-  "description": "The Multipurpose HTML5 Template",
+  "description": "You web development service",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

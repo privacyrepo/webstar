@@ -1,5 +1,5 @@
 /*!
-    Crafto - Parallax
+    webstar - Parallax
     Created by ThemeZaa
 !*/
 

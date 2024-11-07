@@ -8611,7 +8611,7 @@ header .navbar.mini-header .navbar-brand {
   padding: 20px 0;
 }
 header .navbar.mini-header .navbar-brand img {
-  max-height: 22px;
+  /* max-height: 22px; */
 }
 header .navbar-brand {
   margin-right: 0;

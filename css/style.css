@@ -21384,3 +21384,9 @@ footer .footer-navbar .nav-item:last-child a {
   background-color: grey !important;
   cursor: not-allowed !important;
 }
+
+.list-style-02 li{
+  display: grid;
+  grid-template-columns: 20px auto;
+  gap: 10px;
+}

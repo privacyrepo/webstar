@@ -2064,6 +2064,7 @@
 
     // Contact form validation on submit
     $(document).on('click', '.submit', function () {
+        console.log("The form is clicked")
         var error = false,
                 _this = $(this),
                 formObj = _this.parents('form'),
@@ -2101,20 +2102,20 @@
         }
 
         // Google reCaptcha verify
-        if ( typeof ( grecaptcha ) !== 'undefined' && grecaptcha !== null ) {
-            if (formObj.find('.g-recaptcha').length) {
-                var gResponse = grecaptcha.getResponse();
-                if (!(gResponse.length)) {
-                    error = true;
-                    formObj.find('.g-recaptcha').addClass('is-invalid');
-                }
-            } else if( grecaptchav3 != '' && grecaptchav3 != undefined ) { // For Version 3
-                grecaptcha.ready(function() {
-                  grecaptcha.execute(grecaptchav3, {action: 'submit'}).then(function(token) {
-                  });
-                });
-            }
-        }
+        // if ( typeof ( grecaptcha ) !== 'undefined' && grecaptcha !== null ) {
+        //     if (formObj.find('.g-recaptcha').length) {
+        //         var gResponse = grecaptcha.getResponse();
+        //         if (!(gResponse.length)) {
+        //             error = true;
+        //             formObj.find('.g-recaptcha').addClass('is-invalid');
+        //         }
+        //     } else if( grecaptchav3 != '' && grecaptchav3 != undefined ) { // For Version 3
+        //         grecaptcha.ready(function() {
+        //           grecaptcha.execute(grecaptchav3, {action: 'submit'}).then(function(token) {
+        //           });
+        //         });
+        //     }
+        // }
 
         if (!error && actionURL != '' && actionURL != undefined) {
             _this.addClass('loading');
@@ -2128,7 +2129,9 @@
                         window.location.href = redirectVal;
                     } else {
                         if (typeof (result) !== 'undefined' && result !== null) {
-                            result = $.parseJSON(result);
+                            console.log(result)
+                            // result = $.parseJSON(result);
+                            // result = result
                         }
                         formObj.find('input[type=text],input[type=url],input[type=email],input[type=tel],input[type=password],textarea').each(function () {
                             $(this).val('');
@@ -2140,8 +2143,20 @@
                             grecaptcha.reset();
                         }
                         resultsObj.removeClass('alert-success').removeClass('alert-danger').hide();
-                        resultsObj.addClass(result.alert).html(result.message);
+                        // resultsObj.addClass(result.alert).html(result.message);
                         resultsObj.removeClass('d-none').fadeIn('slow').delay(4000).fadeOut('slow');
+
+                        $(document).ready(function() {
+                            // Show the modal
+                            $('#thankYouModal').css('display', 'block');
+
+                            $('.close').on('click', function() {
+                                $('#thankYouModal').css('display', 'none');
+                              });
+
+                              
+                          });
+                          
                     }
                 }
             });

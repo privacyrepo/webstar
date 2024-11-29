@@ -21376,3 +21376,11 @@ footer .footer-navbar .nav-item:last-child a {
 .footer-demo img {
   max-height: 55px !important;
 }
+
+
+/* Form submit btn */
+.submit.loading.loading{
+  pointer-events: none !important;
+  background-color: grey !important;
+  cursor: not-allowed !important;
+}

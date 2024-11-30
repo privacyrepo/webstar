@@ -21389,4 +21389,5 @@ footer .footer-navbar .nav-item:last-child a {
   display: grid;
   grid-template-columns: 20px auto;
   gap: 10px;
+  justify-content: flex-start;
 }

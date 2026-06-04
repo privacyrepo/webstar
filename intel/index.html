@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restaurant Intelligence — Weekly competitor brief, built for your restaurant</title>
+
+<!--
+  ============================================================
+  BEFORE YOU PUBLISH — set these up:
+
+  1. STRIPE PAYMENT LINKS  (in the <script>, replace STRIPE_LINK_MONTHLY + STRIPE_LINK_YEARLY)
+     Make TWO Payment Links, each with "Free trial: 5 days" ON + collect email & card:
+       • Monthly = $49/mo subscription   → paste into STRIPE_LINK_MONTHLY
+       • Yearly  = $399/yr subscription   → paste into STRIPE_LINK_YEARLY
+     In each link's "After payment" setting, redirect to your deployed thankyou page.
+
+  2. LEAD_ENDPOINT  (in the <script>)
+     Make a free Formspree form and paste its endpoint so you receive each
+     signup's restaurant name + email + competitor list by email. (If you skip
+     this, you'll only get email+restaurant from Stripe, not the competitor list.)
+
+  3. REPORT PDF  (search REPORT_PDF_LINK below)
+     Upload Zen_Sushi_Weekly_Brief_EN.pdf next to this file.
+
+  Also upload report-p1.png / report-p3.png / report-p6.png next to this file.
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16140f; --ink-soft:#46413a; --paper:#f6f2e9; --paper-2:#efe9db;
+  --gold:#b08400; --gold-bright:#c89b1e; --line:#ddd5c4;
+  --card:#fffdf7;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Hanken Grotesk",sans-serif;background:var(--paper);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+.mono{font-family:"JetBrains Mono",monospace}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.serif{font-family:"Fraunces",serif}
+
+/* texture */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(22,20,15,.05) 1px, transparent 0);
+  background-size:22px 22px;opacity:.6}
+.wrap,header,section{position:relative;z-index:1}
+
+/* nav */
+header{border-bottom:1px solid var(--line)}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.2px}
+.brand .dot{width:11px;height:11px;background:var(--gold);border-radius:50%}
+.brand small{display:block;font-size:10px;letter-spacing:2.5px;color:var(--ink-soft);
+  text-transform:uppercase;font-weight:500;margin-top:1px}
+.nav .nav-cta{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink);
+  text-decoration:none;border:1px solid var(--ink);padding:8px 16px;border-radius:2px;transition:.2s}
+.nav .nav-cta:hover{background:var(--ink);color:var(--paper)}
+
+/* hero */
+.hero{padding:78px 0 64px}
+.tag{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:26px}
+h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(40px,6.4vw,76px);
+  line-height:.98;letter-spacing:-1.5px;max-width:14ch}
+h1 em{font-style:italic;color:var(--gold)}
+.sub{font-size:clamp(17px,2vw,21px);color:var(--ink-soft);max-width:50ch;margin:26px 0 38px}
+
+/* hero signup */
+.signup{max-width:560px;background:var(--card);border:1.5px solid var(--ink);
+  border-radius:6px;padding:24px 24px 20px;box-shadow:7px 7px 0 var(--ink)}
+.su-row{display:flex;gap:12px;margin-bottom:16px}
+.signup input{width:100%;font-family:"Hanken Grotesk",sans-serif;font-size:15px;
+  padding:14px 15px;border:1.5px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink)}
+.signup input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(176,132,0,.15);background:#fff}
+.signup input.err{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.12)}
+.su-label{font-size:12px;letter-spacing:.3px;color:var(--ink);font-weight:500;margin-bottom:9px}
+.su-label span{color:var(--ink-soft);font-weight:400}
+#comps{display:flex;flex-direction:column;gap:9px}
+.addlink{background:none;border:none;color:var(--gold);font-family:"JetBrains Mono",monospace;
+  font-size:12px;cursor:pointer;padding:8px 0 2px;text-align:left}
+.addlink:hover{text-decoration:underline}
+.addlink[hidden]{display:none}
+.btn{font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:16px;cursor:pointer;
+  background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);
+  padding:16px 26px;border-radius:3px;transition:.18s;white-space:nowrap}
+.btn:hover{background:var(--gold);border-color:var(--gold);color:#1a1305;transform:translateY(-1px)}
+.su-go{width:100%;margin-top:16px}
+.fineprint{font-size:13px;color:var(--ink-soft);margin-top:12px;text-align:center}
+.fineprint b{color:var(--ink)}
+
+/* strip */
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper-2)}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:30px;padding:18px 28px;
+  font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-soft);letter-spacing:.5px}
+.strip span b{color:var(--gold)}
+
+/* section */
+section{padding:74px 0}
+.ey{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+h2{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(30px,4vw,46px);
+  line-height:1.02;letter-spacing:-1px;max-width:18ch}
+.lead{font-size:18px;color:var(--ink-soft);max-width:54ch;margin-top:18px}
+
+/* inside grid */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:44px}
+.cell{background:var(--card);padding:32px 30px}
+.cell .n{font-family:"JetBrains Mono",monospace;color:var(--gold);font-size:13px;margin-bottom:12px}
+.cell h3{font-family:"Fraunces",serif;font-weight:600;font-size:23px;margin-bottom:9px;letter-spacing:-.3px}
+.cell p{color:var(--ink-soft);font-size:15px}
+.cell.feat{background:var(--ink);color:var(--paper)}
+.cell.feat h3{color:#fff}.cell.feat p{color:#c8c1b2}.cell.feat .n{color:var(--gold-bright)}
+
+/* proof */
+.proof{background:var(--ink);color:var(--paper)}
+.proof .ey{color:var(--gold-bright)}
+.proof h2{color:#fff}
+.proof .lead{color:#c8c1b2}
+.shots{display:flex;gap:20px;margin-top:44px;overflow-x:auto;padding-bottom:10px}
+.shots img{width:300px;flex-shrink:0;border-radius:5px;border:1px solid #3a352c;
+  box-shadow:0 22px 50px rgba(0,0,0,.45);background:#fff}
+.proof .btn-light{display:inline-block;margin-top:38px;text-decoration:none;
+  background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.proof .btn-light:hover{background:var(--gold-bright);border-color:var(--gold-bright);color:#1a1305}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:46px}
+.step .sn{font-family:"Fraunces",serif;font-weight:900;font-size:46px;color:var(--gold);line-height:1}
+.step h3{font-size:19px;margin:12px 0 7px;font-weight:700}
+.step p{color:var(--ink-soft);font-size:15px}
+
+/* pricing */
+.price{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pcard{max-width:520px;margin:44px auto 0;background:var(--card);border:1.5px solid var(--ink);
+  border-radius:6px;padding:44px 40px;text-align:center;box-shadow:8px 8px 0 var(--ink)}
+.pcard .amt{font-family:"Fraunces",serif;font-weight:900;font-size:64px;letter-spacing:-2px;line-height:1}
+.pcard .amt span{font-size:22px;color:var(--ink-soft);font-weight:600}
+.pcard .pl{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.pcard ul{list-style:none;text-align:left;margin:26px 0 30px;display:inline-block}
+.pcard li{padding:7px 0 7px 28px;position:relative;color:var(--ink-soft)}
+.pcard li::before{content:"→";position:absolute;left:0;color:var(--gold);font-weight:700}
+.pcard .btn{width:100%}
+/* plan picker inside the signup form */
+.plan-pick{display:flex;gap:9px;margin:0 0 2px}
+.plan-opt{flex:1;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2px;
+  cursor:pointer;background:var(--paper);color:var(--ink-soft);border:1.5px solid var(--line);
+  border-radius:3px;padding:11px 9px;transition:.15s;line-height:1.35;text-align:left}
+.plan-opt:hover{border-color:var(--gold)}
+.plan-opt.is-sel{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.plan-opt b{display:block;color:inherit;font-size:13px;margin-bottom:2px}
+/* two pricing tiers side by side */
+.ptiers{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:760px;margin:44px auto 0}
+.ptiers .pcard{max-width:none;margin:0}
+.pcard.best{position:relative}
+.pcard.best::after{content:"BEST VALUE";position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:#1a1305;font-family:"JetBrains Mono",monospace;font-size:10px;
+  letter-spacing:2px;padding:5px 12px;border-radius:3px;white-space:nowrap}
+@media(max-width:760px){.ptiers{grid-template-columns:1fr;gap:34px}}
+
+/* footer */
+footer{background:var(--ink);color:#9b948700;color:#9b9487;padding:46px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;align-items:center}
+footer a{color:#c8c1b2}
+
+/* reveal (only hidden when JS is active) */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.js .rv.in{opacity:1;transform:none}
+
+@media(max-width:760px){
+  .grid,.steps{grid-template-columns:1fr}
+  .hero{padding:54px 0 44px}
+  .su-row{flex-direction:column}
+  .signup{box-shadow:5px 5px 0 var(--ink);padding:20px 18px 16px}
+  .pcard{box-shadow:5px 5px 0 var(--ink);padding:34px 26px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <span class="dot"></span>
+      <div>Webstar<small>Restaurant Intelligence</small></div>
+    </div>
+    <a href="#start" class="nav-cta">Get my free report</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="tag rv">Weekly competitive brief · for restaurants</div>
+    <h1 class="rv">Know what your competitors did <em>last week.</em></h1>
+    <p class="sub rv">Every week we hand you a brief on your block: what nearby restaurants are posting, who just opened, which local content is going viral, and where the market is moving. Built for your restaurant, from real public data.</p>
+
+    <div id="start" class="signup rv">
+      <div class="su-row">
+        <input id="rname" type="text" placeholder="Your restaurant name" autocomplete="organization">
+        <input id="remail" type="email" placeholder="Email for your report" autocomplete="email">
+      </div>
+      <div class="su-label mono">Who are your 2–5 main competitors? <span>(name + neighborhood — you know them better than anyone)</span></div>
+      <div id="comps">
+        <input class="comp" type="text" placeholder="Competitor 1  ·  e.g. Mojo East (LES)">
+        <input class="comp" type="text" placeholder="Competitor 2  ·  e.g. Kawa Omakase (East Village)">
+      </div>
+      <button type="button" id="addComp" class="addlink">+ add another competitor</button>
+      <div class="su-label mono" style="margin-top:14px">Choose your plan</div>
+      <div class="plan-pick">
+        <button type="button" class="plan-opt is-sel" data-plan="monthly"><b>Monthly</b>$49 / month</button>
+        <button type="button" class="plan-opt" data-plan="yearly"><b>Annual · save ~$189</b>$399 / year</button>
+      </div>
+      <!-- honeypot: hidden from humans; bots fill it and get dropped -->
+      <input type="text" id="hp" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
+             style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none">
+      <button class="btn su-go" id="cta1">Get my first report — free</button>
+      <p class="fineprint">First <b>weekly</b> report free. After your <b>5-day trial</b>, billed <b>$49/mo</b> or <b>$399/yr</b> — cancel anytime.</p>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <span><b>4</b> competitors tracked</span>
+    <span><b>5</b> new openings near you</span>
+    <span><b>5</b> viral posts decoded</span>
+    <span>NYC market <b>trends</b></span>
+    <span>Delivered to your <b>inbox</b></span>
+  </div>
+</div>
+
+<!-- INSIDE -->
+<section>
+  <div class="wrap">
+    <div class="ey rv">What's inside every report</div>
+    <h2 class="serif rv">Not opinions. The data on your competition.</h2>
+    <p class="lead rv">No fluff, no consulting-speak. Just what's happening around you, pulled from public sources and laid out so you can act on it in five minutes.</p>
+
+    <div class="grid">
+      <div class="cell rv"><div class="n">01</div><h3>Competitor coverage</h3><p>What your nearby rivals are posting and what's being posted about them — their offers, hooks, and what's quietly driving their traffic.</p></div>
+      <div class="cell rv"><div class="n">02</div><h3>New openings near you</h3><p>Every relevant restaurant that opened in your area in the last 60 days — pricing, concept, and the operator behind it.</p></div>
+      <div class="cell rv"><div class="n">03</div><h3>What's going viral</h3><p>The local posts pulling real views this week, broken down so you can see exactly why they worked — and borrow the mechanic.</p></div>
+      <div class="cell feat rv"><div class="n">04</div><h3>The gap nobody's filling</h3><p>The one angle your whole block is ignoring — the opening you can own before someone else notices it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="wrap">
+    <div class="ey rv">A real one</div>
+    <h2 class="serif rv">Here's a brief we built for a sushi spot in NYC.</h2>
+    <p class="lead rv">Same format you'll get, with real, verifiable public data. Yours will be about your restaurant, your block, your competitors.</p>
+    <div class="shots rv">
+      <img src="report-p1.png" alt="Report cover">
+      <img src="report-p3.png" alt="Competitor coverage page">
+      <img src="report-p6.png" alt="Viral content page">
+    </div>
+    <!-- REPORT_PDF_LINK: point this to your uploaded PDF -->
+    <a class="btn btn-light" href="Zen_Sushi_Weekly_Brief_EN.pdf" target="_blank">See the full sample report →</a>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section>
+  <div class="wrap">
+    <div class="ey rv">How it works</div>
+    <h2 class="serif rv">Free to start. One minute to set up.</h2>
+    <div class="steps">
+      <div class="step rv"><div class="sn">1</div><h3>Tell us your competitors</h3><p>Your restaurant, your email, and the 2–5 rivals you actually watch. Takes under a minute.</p></div>
+      <div class="step rv"><div class="sn">2</div><h3>Get your first report free</h3><p>Within 24 hours your first weekly brief lands in your inbox — built specifically for your restaurant.</p></div>
+      <div class="step rv"><div class="sn">3</div><h3>Keep it, or cancel</h3><p>Like it? A fresh brief lands every week — billed $49/mo or $399/yr. Don't? Cancel in one click before your 5-day trial ends.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="price">
+  <div class="wrap">
+    <div class="ey rv" style="text-align:center">Pricing</div>
+    <h2 class="serif rv" style="margin:0 auto;text-align:center;max-width:none">Pick your plan. One restaurant. A brief every week.</h2>
+    <div class="ptiers rv">
+      <div class="pcard">
+        <div class="pl">Monthly</div>
+        <div class="amt">$49<span>/month</span></div>
+        <ul>
+          <li>A new competitive brief every week</li>
+          <li>Built for your restaurant &amp; your block</li>
+          <li>Delivered straight to your inbox</li>
+          <li>First report free · 5-day trial · cancel anytime</li>
+        </ul>
+        <button class="btn" id="ctaMonthly">Start free — then $49/mo</button>
+      </div>
+      <div class="pcard best">
+        <div class="pl">Annual</div>
+        <div class="amt">$399<span>/year</span></div>
+        <ul>
+          <li>Everything in Monthly</li>
+          <li>Save ~$189 — about 4 months free</li>
+          <li>One simple yearly bill</li>
+          <li>First report free · 5-day trial · cancel anytime</li>
+        </ul>
+        <button class="btn" id="ctaYearly">Start free — then $399/yr</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand" style="color:#fff"><span class="dot"></span><div>Webstar<small style="color:#9b9487">Restaurant Intelligence</small></div></div>
+    <div>© 2026 Webstar · Questions? <a href="mailto:admin@webstarweb.com">admin@webstarweb.com</a></div>
+  </div>
+</footer>
+
+<script>
+  // enable reveal-hiding only when JS runs
+  document.documentElement.classList.add('js');
+
+  /* ========= CONFIGURE THESE ========= */
+  // Stripe Payment Links — each one: 5-day free trial, card required.
+  //   Monthly link = $49/mo subscription.  Yearly link = $399/yr subscription.
+  var STRIPE_LINK_MONTHLY = "https://buy.stripe.com/test_6oU28j1Ll2cA0HmdH21B601";
+  var STRIPE_LINK_YEARLY  = "https://buy.stripe.com/test_dRm28j75F6sQ2PucCY1B602";
+  // Form endpoint that emails YOU each signup (restaurant + competitors + email + plan).
+  //   Easiest: make a free Formspree form and paste its endpoint here.
+  //   Leave as "" to skip — but then you won't receive the competitor list.
+  var LEAD_ENDPOINT = "https://formspree.io/f/xrevgqqr";
+  /* ==================================== */
+
+  // which plan the visitor picked (default monthly)
+  var selectedPlan = "monthly";
+  function planLink(){ return selectedPlan === "yearly" ? STRIPE_LINK_YEARLY : STRIPE_LINK_MONTHLY; }
+  function setPlan(p){
+    selectedPlan = (p === "yearly") ? "yearly" : "monthly";
+    document.querySelectorAll('.plan-opt').forEach(function(b){
+      b.classList.toggle('is-sel', b.getAttribute('data-plan') === selectedPlan);
+    });
+  }
+  document.querySelectorAll('.plan-opt').forEach(function(b){
+    b.addEventListener('click', function(){ setPlan(b.getAttribute('data-plan')); });
+  });
+
+  var MAX_COMPS = 5;
+
+  // add-competitor (up to 5)
+  var comps = document.getElementById('comps');
+  var addBtn = document.getElementById('addComp');
+  addBtn.addEventListener('click', function(){
+    var n = comps.querySelectorAll('.comp').length;
+    if(n >= MAX_COMPS) return;
+    var inp = document.createElement('input');
+    inp.className = 'comp'; inp.type = 'text';
+    inp.placeholder = 'Competitor ' + (n+1);
+    comps.appendChild(inp); inp.focus();
+    if(comps.querySelectorAll('.comp').length >= MAX_COMPS) addBtn.hidden = true;
+  });
+
+  function val(id){ return (document.getElementById(id).value || "").trim(); }
+  function flagError(el){ el.classList.add('err'); el.addEventListener('input', function(){ el.classList.remove('err'); }, {once:true}); }
+
+  // build a short, unique match code: restaurant slug + random suffix. It goes into BOTH
+  // the Formspree lead and Stripe's client_reference_id, so every payment can be matched
+  // back to its lead even if the email or restaurant name differs at checkout.
+  function makeRef(restaurant){
+    var slug = (restaurant||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,16);
+    var rand = Math.random().toString(36).slice(2,6).toUpperCase();
+    return (slug || 'RI') + '-' + rand;
+  }
+
+  function submitLead(restaurant, email, competitors, ref){
+    if(!LEAD_ENDPOINT) return Promise.resolve();
+    return fetch(LEAD_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({ ref: ref, restaurant: restaurant, email: email, competitors: competitors, plan: selectedPlan, _subject: 'New lead — ' + (restaurant || '(no name)') + ' [' + ref + ']', _gotcha: val('hp') })
+    }).catch(function(){ /* don't block checkout if this fails */ });
+  }
+
+  function go(){
+    // honeypot: if filled, it's a bot — pretend success, send nothing
+    if(val('hp')){ window.location.href = planLink(); return; }
+
+    var restaurant = val('rname');
+    var email = val('remail');
+    var emailEl = document.getElementById('remail');
+    var nameEl = document.getElementById('rname');
+    var compEls = Array.prototype.slice.call(comps.querySelectorAll('.comp'));
+    var competitors = compEls.map(function(e){ return e.value.trim(); }).filter(Boolean);
+
+    var ok = true;
+    if(!restaurant){ flagError(nameEl); ok = false; }
+    if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ flagError(emailEl); ok = false; }
+    if(competitors.length < 2){ if(compEls[0]) flagError(compEls[0]); if(compEls[1]) flagError(compEls[1]); ok = false; }
+    if(!ok){ (document.querySelector('.signup .err')||nameEl).focus(); return; }
+
+    // send the lead to you, then send them to Stripe for the card
+    var ref = makeRef(restaurant);
+    submitLead(restaurant, email, competitors, ref).then(function(){
+      var url = planLink();
+      var sep = url.indexOf('?') > -1 ? '&' : '?';
+      url += sep + 'prefilled_email=' + encodeURIComponent(email)
+           + '&client_reference_id=' + encodeURIComponent(ref);
+      window.location.href = url;
+    });
+  }
+
+  document.getElementById('cta1').addEventListener('click', go);
+  function tierClick(plan){
+    setPlan(plan);
+    document.getElementById('start').scrollIntoView({behavior:'smooth'});
+    document.getElementById('rname').focus();
+  }
+  document.getElementById('ctaMonthly').addEventListener('click', function(){ tierClick('monthly'); });
+  document.getElementById('ctaYearly').addEventListener('click', function(){ tierClick('yearly'); });
+
+  // personalize CTA as they type
+  var rname = document.getElementById('rname'), cta = document.getElementById('cta1');
+  rname.addEventListener('input', function(){
+    var v = rname.value.trim();
+    cta.textContent = v ? ('Get ' + (v.length>22 ? v.slice(0,22)+'…' : v) + "'s report") : 'Get my first report — free';
+  });
+
+  // scroll reveal
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(el,i){
+    el.style.transitionDelay = (i%4*60)+'ms'; io.observe(el);
+  });
+</script>
+</body>
+</html>

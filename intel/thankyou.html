@@ -1,1 +1,53 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're in — your first report is on its way</title>
+<!-- Set this page as your Stripe Payment Link "After payment" confirmation/redirect URL.
+     Update the contact email below if it's not admin@webstarweb.com. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16140f;--ink-soft:#46413a;--paper:#f6f2e9;--gold:#b08400;--line:#ddd5c4;--card:#fffdf7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Hanken Grotesk",sans-serif;background:var(--paper);color:var(--ink);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;line-height:1.55;padding:28px}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle at 1px 1px, rgba(22,20,15,.05) 1px, transparent 0);
+  background-size:22px 22px;opacity:.6}
+.box{position:relative;max-width:560px;text-align:center;background:var(--card);
+  border:1.5px solid var(--ink);border-radius:8px;padding:54px 44px;box-shadow:9px 9px 0 var(--ink)}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--gold);margin:0 auto 26px;
+  display:flex;align-items:center;justify-content:center}
+.tick svg{width:32px;height:32px;stroke:#fff;stroke-width:3;fill:none}
+.tag{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(30px,5vw,42px);
+  line-height:1.04;letter-spacing:-1px;margin-bottom:18px}
+p{font-size:17px;color:var(--ink-soft);margin-bottom:14px}
+.note{background:var(--paper);border:1px solid var(--line);border-radius:5px;
+  padding:16px 18px;font-size:14.5px;color:var(--ink-soft);margin:24px 0 8px;text-align:left}
+.note b{color:var(--ink)}
+a.mail{color:var(--gold);font-weight:600;text-decoration:none}
+a.mail:hover{text-decoration:underline}
+.foot{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:1px;
+  color:var(--ink-soft);margin-top:26px}
+</style>
+</head>
+<body>
+  <div class="box">
+    <div class="tick"><svg viewBox="0 0 24 24"><polyline points="4 12.5 10 18 20 6"/></svg></div>
+    <div class="tag">You're in</div>
+    <h1>Your first report is being built.</h1>
+    <p>We'll email it to you <b>within 24 hours</b> — made for your restaurant and the competitors you listed. After that, a fresh brief lands <b>every week</b>.</p>
+    <div class="note">
+      <p style="margin:0 0 8px"><b>Don't see it?</b> Check your spam or promotions folder — first emails sometimes land there. Add us to your contacts so future reports come straight through.</p>
+      <p style="margin:0">Questions or didn't get it? Email <a class="mail" href="mailto:admin@webstarweb.com">admin@webstarweb.com</a> and we'll sort it out fast.</p>
+    </div>
+    <p style="font-size:14px;margin-top:18px">Your 5-day trial is free. You can cancel anytime before it ends and won't be charged.</p>
+    <div class="foot">WEBSTAR · RESTAURANT INTELLIGENCE</div>
+  </div>
+</body>
+</html>

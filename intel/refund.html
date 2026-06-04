@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cancel, manage &amp; refunds — Webstar Restaurant Intelligence</title>
+<!-- IMPORTANT: replace STRIPE_PORTAL_LINK below with your LIVE Stripe Customer Portal login link.
+     Get it in Stripe (live mode): Settings → Billing → Customer portal → activate/copy the
+     login link. It looks like https://billing.stripe.com/p/login/xxxxxxxx -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16140f;--ink-soft:#46413a;--paper:#f6f2e9;--gold:#b08400;--line:#ddd5c4;--card:#fffdf7}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Hanken Grotesk",sans-serif;background:var(--paper);color:var(--ink);
+  min-height:100vh;line-height:1.6;padding:40px 28px}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(22,20,15,.05) 1px, transparent 0);
+  background-size:22px 22px;opacity:.6}
+.box{position:relative;z-index:1;max-width:620px;margin:0 auto;background:var(--card);
+  border:1.5px solid var(--ink);border-radius:8px;padding:46px 44px;box-shadow:9px 9px 0 var(--ink)}
+.tag{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(28px,5vw,38px);
+  line-height:1.05;letter-spacing:-1px;margin-bottom:14px}
+h2{font-family:"Fraunces",serif;font-weight:900;font-size:20px;margin:30px 0 8px}
+p{font-size:16px;color:var(--ink-soft);margin-bottom:12px}
+ol{margin:6px 0 12px 0;padding-left:20px;color:var(--ink-soft);font-size:16px}
+ol li{margin-bottom:7px}
+b{color:var(--ink)}
+a.mail{color:var(--gold);font-weight:600;text-decoration:none}
+a.mail:hover{text-decoration:underline}
+.btn{display:inline-block;background:var(--ink);color:var(--paper);font-weight:700;font-size:16px;
+  text-decoration:none;padding:13px 22px;border-radius:5px;margin:8px 0 4px;
+  box-shadow:4px 4px 0 var(--gold)}
+.btn:hover{transform:translate(1px,1px);box-shadow:3px 3px 0 var(--gold)}
+.note{background:var(--paper);border:1px solid var(--line);border-radius:5px;
+  padding:14px 16px;font-size:14.5px;color:var(--ink-soft);margin:16px 0}
+.back{display:inline-block;margin-top:28px;font-family:"JetBrains Mono",monospace;
+  font-size:12px;letter-spacing:1px;color:var(--ink-soft);text-decoration:none}
+.back:hover{color:var(--gold)}
+.foot{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:1px;
+  color:var(--ink-soft);margin-top:30px;border-top:1px solid var(--line);padding-top:18px}
+</style>
+</head>
+<body>
+  <div class="box">
+    <div class="tag">Cancel · Manage · Refunds</div>
+    <h1>Managing your subscription</h1>
+    <p>No lock-in, no hoops. Here's exactly how billing works and how to cancel whenever you want.</p>
+
+    <h2>Your 5-day free trial</h2>
+    <p>When you sign up, your card isn't charged for <b>5 days</b>. Cancel any time before the trial ends and you <b>won't be charged a cent</b> — you keep the free first report regardless.</p>
+
+    <h2>How to cancel (any time, one place)</h2>
+    <p>You manage everything through Stripe, our payment provider — no need to wait on us:</p>
+    <ol>
+      <li>Open the secure billing portal using the button below.</li>
+      <li>Enter the <b>email you signed up with</b>. Stripe emails you a one-time login code.</li>
+      <li>Enter the code to log in — you'll see your subscription.</li>
+      <li>Click <b>Cancel subscription</b>. Done.</li>
+    </ol>
+    <a class="btn" href="STRIPE_PORTAL_LINK">Open the billing portal →</a>
+    <div class="note">If you cancel after your trial, your subscription stays active until the end of the period you've already paid for — you won't be billed again, and you keep access until then.</div>
+
+    <h2>Refunds &amp; questions</h2>
+    <p>Charged by mistake, or something's not right? Just email us at <a class="mail" href="mailto:admin@webstarweb.com">admin@webstarweb.com</a> — a real person reads it and we'll sort it out quickly. We're easy to deal with.</p>
+
+    <a class="back" href="index.html">← Back to Restaurant Intelligence</a>
+    <div class="foot">WEBSTAR · RESTAURANT INTELLIGENCE</div>
+  </div>
+</body>
+</html>
